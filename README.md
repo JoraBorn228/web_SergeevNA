@@ -84,19 +84,51 @@ python -m pytest tests/ -v
 - Навбар со ссылками на все страницы; блок «Войти/Выйти» зависит от статуса
 - **21 тест** в `tests/test_app.py`
 
-**Запуск:**
+**Запуск в Git Bash (как в предыдущих лабах):**
 ```bash
 cd "Лаба 3/app"
-python -m venv venv
-venv\Scripts\activate
+source ve/Scripts/activate
 pip install -r ../requirements.txt
 python app.py
 ```
 
-**Тесты:**
+Либо одной командой (скрипт сам найдёт/создаст окружение и поставит зависимости):
 ```bash
 cd "Лаба 3/app"
+bash run.sh
+```
+
+**Запуск в cmd/PowerShell (Windows):**
+```bat
+cd "Лаба 3/app"
+run.bat
+```
+или вручную:
+```bat
+cd "Лаба 3/app"
+python -m venv ve
+ve\Scripts\activate
+pip install -r ..\requirements.txt
+python app.py
+```
+
+Приложение откроется на http://127.0.0.1:5000
+
+> ⚠️ **Важно:** запускать нужно **из активированного окружения** (`ve`).
+> Если выполнить `python app.py` системным Python, будет ошибка
+> `ModuleNotFoundError: No module named 'flask_login'`.
+
+**Тесты:**
+```bash
+# Git Bash
+cd "Лаба 3/app"
+source ve/Scripts/activate
 python -m pytest tests/ -v
+```
+```bat
+:: cmd / PowerShell
+cd "Лаба 3/app"
+ve\Scripts\python.exe -m pytest tests\ -v
 ```
 
 **Деплой на хостинг (Render):**

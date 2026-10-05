@@ -25,6 +25,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# Logs
+*.log
+
 # Дз 1 и Дз 2 — учебные задания Python (не Flask)
 Дз 1/
 Дз 2/

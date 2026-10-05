@@ -1,4 +1,4 @@
-﻿﻿flask==3.0.3
+flask==3.0.3
 flask-login==0.6.3
 pytest==8.3.5
 pytest-mock==3.14.0
