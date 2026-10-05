@@ -25,3 +25,16 @@ services:
       # SQLite на бесплатном тарифе эфемерна: БД пересоздаётся при перезапуске
       - key: DATABASE
         value: /tmp/lab4.sqlite
+
+  - type: web
+    name: flask-lab5
+    runtime: python
+    plan: free
+    rootDir: "Лаба 5/app"
+    buildCommand: pip install -r ../requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE
+        value: /tmp/lab5.sqlite

@@ -1,0 +1,83 @@
+{# Макрос формы пользователя. Используется на страницах создания и редактирования. #}
+{% macro user_form(action, values, roles, errors, is_edit=false, is_own=false, submit_label='Сохранить') %}
+<form method="post" action="{{ action }}" novalidate>
+    {% if not is_edit %}
+    <div class="mb-3">
+        <label for="login" class="form-label">Логин</label>
+        <input type="text"
+               id="login"
+               name="login"
+               value="{{ values.login }}"
+               class="form-control {% if errors.login %}is-invalid{% endif %}"
+               autocomplete="off">
+        {% if errors.login %}<div class="invalid-feedback">{{ errors.login }}</div>{% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password"
+               id="password"
+               name="password"
+               value="{{ values.password }}"
+               class="form-control {% if errors.password %}is-invalid{% endif %}"
+               autocomplete="new-password">
+        {% if errors.password %}<div class="invalid-feedback">{{ errors.password }}</div>{% endif %}
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <label for="last_name" class="form-label">Фамилия</label>
+        <input type="text"
+               id="last_name"
+               name="last_name"
+               value="{{ values.last_name }}"
+               class="form-control {% if errors.last_name %}is-invalid{% endif %}">
+        {% if errors.last_name %}<div class="invalid-feedback">{{ errors.last_name }}</div>{% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="first_name" class="form-label">Имя</label>
+        <input type="text"
+               id="first_name"
+               name="first_name"
+               value="{{ values.first_name }}"
+               class="form-control {% if errors.first_name %}is-invalid{% endif %}">
+        {% if errors.first_name %}<div class="invalid-feedback">{{ errors.first_name }}</div>{% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="middle_name" class="form-label">Отчество</label>
+        <input type="text"
+               id="middle_name"
+               name="middle_name"
+               value="{{ values.middle_name }}"
+               class="form-control {% if errors.middle_name %}is-invalid{% endif %}">
+        {% if errors.middle_name %}<div class="invalid-feedback">{{ errors.middle_name }}</div>{% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="role_id" class="form-label">Роль</label>
+        <select id="role_id"
+                name="role_id"
+                class="form-select {% if errors.role_id %}is-invalid{% endif %}"
+                {% if is_own %}disabled{% endif %}>
+            <option value="">— без роли —</option>
+            {% for role in roles %}
+            <option value="{{ role.id }}"
+                    {% if values.role_id|string == role.id|string %}selected{% endif %}>
+                {{ role.name }}
+            </option>
+            {% endfor %}
+        </select>
+        {% if errors.role_id %}<div class="invalid-feedback">{{ errors.role_id }}</div>{% endif %}
+        {% if is_own %}
+        <div class="form-text">Изменение роли недоступно.</div>
+        {% endif %}
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">{{ submit_label }}</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+{% endmacro %}

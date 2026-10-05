@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "_macros.html" as forms %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <h1 class="mb-4">Создание пользователя</h1>
+        <div class="card shadow border-0">
+            <div class="card-body p-4">
+                {{ forms.user_form(
+                    action=url_for('create_user'),
+                    values=values,
+                    roles=roles,
+                    errors=errors,
+                    is_edit=false,
+                    is_own=false,
+                    submit_label='Сохранить'
+                ) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

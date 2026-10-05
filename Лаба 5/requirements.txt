@@ -1,0 +1,10 @@
+flask==3.0.3
+flask-login==0.6.3
+werkzeug==3.0.6
+pytest==8.3.5
+pytest-mock==3.14.0
+python-dotenv==1.0.1
+blinker==1.8.2
+
+# WSGI-сервер для продакшена (используется на хостинге)
+gunicorn==23.0.0
