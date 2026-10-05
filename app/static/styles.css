@@ -1,0 +1,284 @@
+/* ==========================================================================
+   Лабораторная работа №1 — Сергеев Никита Андреевич, группа 241-372
+   Общие стили сайта
+   ========================================================================== */
+
+:root {
+    --brand: #4f46e5;
+    --brand-dark: #3730a3;
+    --brand-soft: #eef2ff;
+    --ink: #1e1b2e;
+    --muted: #6b7280;
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --radius: 16px;
+    --shadow-sm: 0 1px 2px rgba(16, 24, 40, .06);
+    --shadow-md: 0 10px 30px rgba(16, 24, 40, .08);
+    --shadow-lg: 0 20px 45px rgba(16, 24, 40, .12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    background-color: var(--bg);
+    line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    letter-spacing: -.01em;
+}
+
+a {
+    color: var(--brand);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--brand-dark);
+}
+
+/* --- Навигация ----------------------------------------------------------- */
+
+.site-navbar {
+    background: linear-gradient(120deg, #1e1b4b 0%, #312e81 55%, #4f46e5 100%);
+    box-shadow: var(--shadow-md);
+}
+
+.site-navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .16);
+    font-size: .85rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+}
+
+.site-navbar .nav-link {
+    font-weight: 500;
+    opacity: .85;
+    transition: opacity .15s ease;
+}
+
+.site-navbar .nav-link:hover {
+    opacity: 1;
+}
+
+/* --- Карточки ------------------------------------------------------------ */
+
+.card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-img-top {
+    height: 230px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.3rem;
+}
+
+.card-footer {
+    background: #fbfbfe;
+    border-top: 1px solid var(--border);
+}
+
+/* --- Кнопки -------------------------------------------------------------- */
+
+.btn-brand {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: .5rem 1.1rem;
+}
+
+.btn-brand:hover,
+.btn-brand:focus {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    color: #fff;
+}
+
+/* --- Главная (hero) ------------------------------------------------------ */
+
+.hero {
+    background: linear-gradient(120deg, #eef2ff 0%, #f5f3ff 60%, #ede9fe 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.hero .badge-task {
+    display: inline-block;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: .35rem .9rem;
+    font-size: .8rem;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-size: clamp(1.9rem, 4vw, 2.75rem);
+    font-weight: 800;
+}
+
+/* --- Страница поста ------------------------------------------------------ */
+
+.post-article {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 2.25rem;
+}
+
+.post-title {
+    font-weight: 800;
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+}
+
+.post-meta {
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.post-meta .author {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin: 1.5rem 0;
+}
+
+.post-text {
+    font-size: 1.1rem;
+    color: #2b2938;
+    white-space: pre-line;
+}
+
+/* --- Комментарии --------------------------------------------------------- */
+
+.section-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.75rem;
+}
+
+.avatar-initial {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 2.75rem;
+    border-radius: 50%;
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+}
+
+.comment-body {
+    background: #fafafe;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: .85rem 1.1rem;
+}
+
+.comment-author {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.comment-text {
+    margin-bottom: 0;
+    color: #3a3748;
+}
+
+.comment-replies {
+    margin-left: 1.5rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--brand-soft);
+}
+
+/* --- Об авторе ----------------------------------------------------------- */
+
+.avatar {
+    max-width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    object-fit: cover;
+}
+
+.author-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 2rem;
+}
+
+/* --- Подвал -------------------------------------------------------------- */
+
+.site-footer {
+    background: #1e1b4b;
+    color: #fff;
+}
+
+/* --- Адаптив ------------------------------------------------------------- */
+
+@media (max-width: 576px) {
+    .hero {
+        padding: 2rem 1.25rem;
+    }
+
+    .post-article,
+    .section-card {
+        padding: 1.25rem;
+    }
+
+    .card-img-top {
+        height: 190px;
+    }
+}

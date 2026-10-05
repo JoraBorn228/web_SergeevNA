@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% macro render_comment(comment) %}
+    <div class="d-flex gap-3 mb-4">
+        <span class="avatar-initial">{{ comment.author[0] }}</span>
+        <div class="flex-grow-1">
+            <div class="comment-body">
+                <div class="comment-author mb-1">{{ comment.author }}</div>
+                <p class="comment-text">{{ comment.text }}</p>
+            </div>
+            {% if comment.replies %}
+                <div class="comment-replies mt-3">
+                    {% for reply in comment.replies %}
+                        {{ render_comment(reply) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('posts') }}">Посты</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Пост</li>
+        </ol>
+    </nav>
+
+    <article class="post-article mb-4">
+        <h1 class="post-title mb-2">{{ post.title }}</h1>
+
+        <p class="post-meta mb-0">
+            Автор: <span class="author">{{ post.author }}</span> &middot;
+            Опубликовано {{ post.date.strftime('%d.%m.%Y') }}
+        </p>
+
+        <img class="post-image" src="{{ url_for('static', filename='images/' + post.image_id) }}" alt="{{ post.title }}">
+
+        <div class="post-text">{{ post.text }}</div>
+    </article>
+
+    <section class="section-card mb-4">
+        <h3 class="h4 mb-3">Оставьте комментарий</h3>
+        <form>
+            <div class="mb-3">
+                <label for="comment-text" class="form-label">Комментарий</label>
+                <textarea class="form-control" id="comment-text" rows="3" placeholder="Введите текст комментария"></textarea>
+            </div>
+            <button type="submit" class="btn btn-brand">Отправить</button>
+        </form>
+    </section>
+
+    <section class="section-card">
+        <h3 class="h4 mb-4">Комментарии <span class="text-muted fs-6">({{ post.comments | length }})</span></h3>
+        {% for comment in post.comments %}
+            {{ render_comment(comment) }}
+        {% else %}
+            <p class="text-muted mb-0">Пока нет комментариев. Будьте первым!</p>
+        {% endfor %}
+    </section>
+{% endblock %}
