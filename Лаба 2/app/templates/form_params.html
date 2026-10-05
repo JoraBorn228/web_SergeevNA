@@ -1,0 +1,36 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Параметры формы</h1>
+<form method="post" action="{{ url_for('form_params') }}" class="mb-4">
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Введите email">
+    </div>
+    <div class="mb-3">
+        <label for="message" class="form-label">Сообщение</label>
+        <textarea class="form-control" id="message" name="message" rows="3" placeholder="Введите сообщение"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+
+{% if method == "POST" and params %}
+<h2 class="mb-3">Полученные данные</h2>
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr><th>Поле</th><th>Значение</th></tr>
+    </thead>
+    <tbody>
+        {% for key, value in params.items() %}
+        <tr>
+            <td><code>{{ key }}</code></td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

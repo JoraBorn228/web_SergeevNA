@@ -1,0 +1,23 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Параметры URL</h1>
+{% if params %}
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr><th>Параметр</th><th>Значение</th></tr>
+        </thead>
+        <tbody>
+            {% for key, value in params.items() %}
+            <tr>
+                <td><code>{{ key }}</code></td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="alert alert-info">
+        Параметры не переданы. Попробуйте: <a href="{{ url_for('url_params') }}?name=Alice&age=25">?name=Alice&amp;age=25</a>
+    </div>
+{% endif %}
+{% endblock %}

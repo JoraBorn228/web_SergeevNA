@@ -1,0 +1,101 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <!-- Заголовок поста -->
+        <h1 class="mt-4 mb-2">{{ post.title }}</h1>
+
+        <!-- Мета-информация -->
+        <div class="d-flex align-items-center text-muted mb-3">
+            <span class="me-3"><strong>{{ post.author }}</strong></span>
+            <span>{{ post.date.strftime('%d.%m.%Y') }}</span>
+        </div>
+
+        <!-- Изображение -->
+        <img src="{{ url_for('static', filename='images/' + post.image_id) }}"
+             class="img-fluid rounded mb-4 w-100"
+             style="max-height: 420px; object-fit: cover;"
+             alt="{{ post.title }}">
+
+        <!-- Текст поста -->
+        <div class="post-text mb-5">
+            <p class="lead">{{ post.text }}</p>
+        </div>
+
+        <hr>
+
+        <!-- Комментарии -->
+        <h2 class="mb-4">Комментарии</h2>
+
+        {% if post.comments %}
+            {% for comment in post.comments %}
+            <div class="d-flex mb-4">
+                <div class="flex-shrink-0">
+                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white"
+                         style="width: 48px; height: 48px; font-size: 1.2rem;">
+                        {{ comment.author[0] | upper }}
+                    </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">
+                                <strong>{{ comment.author }}</strong>
+                            </h6>
+                            <p class="card-text text-muted mb-0">{{ comment.text }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Ответы на комментарий -->
+                    {% if comment.replies %}
+                        {% for reply in comment.replies %}
+                        <div class="d-flex mt-3 ms-4">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white"
+                                     style="width: 38px; height: 38px; font-size: 1rem;">
+                                    {{ reply.author[0] | upper }}
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="card border-primary border-opacity-25">
+                                    <div class="card-body py-2">
+                                        <h6 class="card-title mb-1">
+                                            <strong>{{ reply.author }}</strong>
+                                        </h6>
+                                        <p class="card-text text-muted mb-0 small">{{ reply.text }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">Комментариев пока нет. Будьте первым!</p>
+        {% endif %}
+
+        <hr>
+
+        <!-- Форма оставить комментарий -->
+        <h3 class="mb-3">Оставьте комментарий</h3>
+        <form method="post" action="#">
+            <div class="mb-3">
+                <label for="commentText" class="form-label">Ваш комментарий</label>
+                <textarea class="form-control" id="commentText" name="comment" rows="4"
+                          placeholder="Напишите ваш комментарий..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+
+        <div class="mt-4">
+            <a href="{{ url_for('posts') }}" class="btn btn-outline-secondary">&larr; К списку постов</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

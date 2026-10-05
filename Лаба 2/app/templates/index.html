@@ -1,0 +1,51 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Лабораторная работа №2</h1>
+<div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Параметры URL</h5>
+                <p class="card-text text-muted">Просмотр query-параметров переданных в URL запроса.</p>
+                <a href="{{ url_for('url_params') }}?name=Alice&age=25" class="btn btn-outline-primary btn-sm">Открыть пример</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Заголовки запроса</h5>
+                <p class="card-text text-muted">Просмотр HTTP-заголовков текущего запроса.</p>
+                <a href="{{ url_for('headers') }}" class="btn btn-outline-primary btn-sm">Открыть</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Cookie</h5>
+                <p class="card-text text-muted">Установка и удаление cookie при каждом переходе.</p>
+                <a href="{{ url_for('cookies') }}" class="btn btn-outline-primary btn-sm">Открыть</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Параметры формы</h5>
+                <p class="card-text text-muted">Отправка и отображение данных POST-формы.</p>
+                <a href="{{ url_for('form_params') }}" class="btn btn-outline-primary btn-sm">Открыть</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Проверка телефона</h5>
+                <p class="card-text text-muted">Валидация и форматирование номера телефона.</p>
+                <a href="{{ url_for('phone') }}" class="btn btn-outline-primary btn-sm">Открыть</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

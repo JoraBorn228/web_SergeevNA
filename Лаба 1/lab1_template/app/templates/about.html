@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mt-2 mb-4">Об авторе</h1>
+<div class="author-card">
+    <div class="row align-items-center g-4">
+        <div class="col-md-4">
+            <img class="avatar" src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="Автор">
+        </div>
+        <div class="col-md-8">
+            <h2 class="h3 mb-1">Сергеев Никита Андреевич</h2>
+            <p class="text-muted mb-3">Студент группы 241-372</p>
+            <p class="mb-2">
+                Лабораторная работа №1 по дисциплине «Веб-разработка». В рамках работы
+                реализовано веб-приложение на Flask с использованием Bootstrap: список
+                постов, страница отдельного поста с комментариями и ответами, а также
+                подвал сайта с информацией об авторе.
+            </p>
+            <p class="mb-0">
+                <span class="badge rounded-pill bg-light text-dark border">Python</span>
+                <span class="badge rounded-pill bg-light text-dark border">Flask</span>
+                <span class="badge rounded-pill bg-light text-dark border">Jinja2</span>
+                <span class="badge rounded-pill bg-light text-dark border">Bootstrap 5</span>
+                <span class="badge rounded-pill bg-light text-dark border">pytest</span>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

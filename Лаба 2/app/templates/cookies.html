@@ -1,0 +1,20 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Cookie</h1>
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if cookie_value %}
+            <div class="alert alert-warning">
+                Cookie <code>{{ cookie_name }}</code> была установлена (значение: <strong>{{ cookie_value }}</strong>).
+                При этом запросе она была <strong>удалена</strong>.
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                Cookie <code>{{ cookie_name }}</code> не была установлена.
+                При этом запросе она была <strong>установлена</strong>.
+            </div>
+        {% endif %}
+        <p class="mb-0">Обновите страницу, чтобы увидеть изменение.</p>
+    </div>
+</div>
+{% endblock %}
