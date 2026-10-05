@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Просмотр пользователя</h1>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">К списку</a>
+        </div>
+
+        <table class="table table-bordered align-middle">
+            <tbody>
+                <tr>
+                    <th scope="row" class="table-light" style="width: 35%;">Идентификатор</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-light">Логин</th>
+                    <td>{{ user.login }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-light">Фамилия</th>
+                    <td>{{ user.last_name or '—' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-light">Имя</th>
+                    <td>{{ user.first_name or '—' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-light">Отчество</th>
+                    <td>{{ user.middle_name or '—' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-light">Роль</th>
+                    <td>{{ user.role_name or '—' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

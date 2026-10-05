@@ -1,0 +1,50 @@
+"""Общие фикстуры для тестов Лабораторной работы №4."""
+import os
+import sys
+
+import pytest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from app import create_app  # noqa: E402
+import db as db_module  # noqa: E402
+
+ADMIN_LOGIN = 'admin'
+ADMIN_PASSWORD = 'Admin123'
+
+
+@pytest.fixture
+def app(tmp_path):
+    """Приложение с изолированной временной БД для каждого теста."""
+    database = str(tmp_path / 'test.sqlite')
+    flask_app = create_app({
+        'TESTING': True,
+        'SECRET_KEY': 'test-secret-key',
+        'DATABASE': database,
+    })
+    yield flask_app
+
+
+@pytest.fixture
+def client(app):
+    return app.test_client()
+
+
+@pytest.fixture
+def auth_client(client):
+    """Клиент, аутентифицированный как admin."""
+    client.post('/login', data={'login': ADMIN_LOGIN, 'password': ADMIN_PASSWORD})
+    return client
+
+
+@pytest.fixture
+def add_user(app):
+    """Фабрика: создаёт пользователя в БД и возвращает его id."""
+    def _add_user(login='testuser', password='Testpass1',
+                  last_name='Иванов', first_name='Иван',
+                  middle_name='Иванович', role_id=None):
+        with app.app_context():
+            return db_module.create_user(
+                login, password, last_name, first_name, middle_name, role_id
+            )
+    return _add_user

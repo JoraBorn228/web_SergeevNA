@@ -21,6 +21,12 @@ __pycache__/
 # Environment files
 .env
 
+# SQLite databases / instance data
+*.sqlite
+*.sqlite3
+*.db
+instance/
+
 # OS files
 .DS_Store
 Thumbs.db
