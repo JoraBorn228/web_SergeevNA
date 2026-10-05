@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Новая книга' if mode == 'create' else 'Редактирование книги' }}{% endblock %}
+{% macro field(name, label, value='', type='text', required=true) %}
+<div class="mb-3"><label class="form-label" for="{{ name }}">{{ label }}</label><input class="form-control" id="{{ name }}" name="{{ name }}" type="{{ type }}" value="{{ request.form.get(name, value) }}" {% if required %}required{% endif %}></div>
+{% endmacro %}
+{% block content %}
+<h1 class="h2 mb-4">{{ 'Добавление книги' if mode == 'create' else 'Редактирование книги' }}</h1>
+<form class="card card-body shadow-sm" method="post" {% if mode == 'create' %}enctype="multipart/form-data"{% endif %}>
+  {{ field('title', 'Название', book.title if book else '') }}
+  <div class="mb-3"><label class="form-label" for="short_description">Краткое описание</label><textarea class="form-control" id="short_description" name="short_description" rows="2" required>{{ request.form.get('short_description', book.short_description if book else '') }}</textarea></div>
+  <div class="mb-3"><label class="form-label" for="description">Описание (Markdown)</label><textarea class="form-control font-monospace" id="description" name="description" rows="8" required>{{ request.form.get('description', book.description if book else '') }}</textarea><div class="form-text">Поддерживаются заголовки, списки, ссылки, таблицы и блоки кода.</div></div>
+  <div class="row"><div class="col-md-3">{{ field('year', 'Год издания', book.year if book else '', 'number') }}</div><div class="col-md-5">{{ field('publisher', 'Издательство', book.publisher if book else '') }}</div><div class="col-md-4">{{ field('page_count', 'Объём (страниц)', book.page_count if book else '', 'number') }}</div></div>
+  {{ field('author', 'Автор', book.author if book else '') }}
+  <div class="mb-3"><label class="form-label" for="genre_ids">Жанры</label><select class="form-select" id="genre_ids" name="genre_ids" multiple size="6" required>
+    {% for genre in genres %}<option value="{{ genre.id }}" {% if genre.id|string in request.form.getlist('genre_ids') or (not request.form and book and genre in book.genres) %}selected{% endif %}>{{ genre.name }}</option>{% endfor %}
+  </select><div class="form-text">Удерживайте Ctrl (Windows) или Command (macOS), чтобы выбрать несколько жанров.</div></div>
+  {% if mode == 'create' %}<div class="mb-3"><label class="form-label" for="cover">Обложка (JPEG, PNG или WebP)</label><input class="form-control" type="file" id="cover" name="cover" accept="image/jpeg,image/png,image/webp" required></div>{% endif %}
+  <div class="d-flex gap-2"><button class="btn btn-primary">Сохранить</button><a class="btn btn-outline-secondary" href="{{ url_for('main.index') }}">Отмена</a></div>
+</form>
+{% endblock %}

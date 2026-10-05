@@ -1,0 +1,31 @@
+{% macro book_card(book) %}
+<article class="card h-100 shadow-sm">
+  {% if book.cover %}<a href="{{ url_for('main.book_detail', book_id=book.id) }}"><img class="card-img-top book-cover" src="{{ book.cover.url }}" alt="Обложка книги {{ book.title }}"></a>{% endif %}
+  <div class="card-body d-flex flex-column">
+    <h3 class="h5"><a href="{{ url_for('main.book_detail', book_id=book.id) }}">{{ book.title }}</a></h3>
+    <p class="text-secondary small mb-2">{{ book.author }} · {{ book.year }}</p>
+    <p class="card-text">{{ book.short_description }}</p>
+    <p class="small">{{ book.genres | map(attribute='name') | join(', ') }}<br>★ {{ book.average_rating }} · {{ book.review_count }} рецензий</p>
+    <div class="mt-auto d-flex gap-2 flex-wrap">
+      <a class="btn btn-sm btn-outline-primary" href="{{ url_for('main.book_detail', book_id=book.id) }}">Просмотр</a>
+      {% if current_user.is_authenticated and current_user.has_role('Администратор', 'Модератор') %}<a class="btn btn-sm btn-outline-secondary" href="{{ url_for('main.book_edit', book_id=book.id) }}">Редактировать</a>{% endif %}
+      {% if current_user.is_authenticated and current_user.has_role('Администратор') %}
+      <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-book-{{ book.id }}">Удалить</button>
+      <div class="modal fade" id="delete-book-{{ book.id }}" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title fs-5">Удаление книги</h2><button class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">Вы уверены, что хотите удалить книгу {{ book.title }}?</div>
+        <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Нет</button><form method="post" action="{{ url_for('main.book_delete', book_id=book.id) }}"><button class="btn btn-danger">Да</button></form></div>
+      </div></div></div>
+      {% endif %}
+    </div>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro pagination_links(pagination, endpoint) %}
+{% if pagination.pages > 1 %}<nav class="mt-4" aria-label="Страницы"><ul class="pagination justify-content-center">
+  <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}"><a class="page-link" href="{{ url_for(endpoint, page=pagination.prev_num) if pagination.has_prev else '#' }}">Назад</a></li>
+  {% for page in pagination.iter_pages() %}{% if page %}<li class="page-item {% if page == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>{% else %}<li class="page-item disabled"><span class="page-link">…</span></li>{% endif %}{% endfor %}
+  <li class="page-item {% if not pagination.has_next %}disabled{% endif %}"><a class="page-link" href="{{ url_for(endpoint, page=pagination.next_num) if pagination.has_next else '#' }}">Далее</a></li>
+</ul></nav>{% endif %}
+{% endmacro %}

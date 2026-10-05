@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import pagination_links %}
+{% block title %}Статистика посещений{% endblock %}
+{% block content %}
+<h1 class="mb-4">Статистика</h1>
+<ul class="nav nav-tabs mb-4">
+  <li class="nav-item"><a class="nav-link {% if tab == 'logs' %}active{% endif %}" href="{{ url_for('main.statistics', tab='logs') }}">Журнал действий пользователей</a></li>
+  <li class="nav-item"><a class="nav-link {% if tab == 'views' %}active{% endif %}" href="{{ url_for('main.statistics', tab='views') }}">Статистика просмотра книг</a></li>
+</ul>
+
+{% if tab == 'logs' %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h4">Журнал просмотров</h2><a class="btn btn-outline-success" href="{{ url_for('main.export_logs') }}">Экспорт в CSV</a></div>
+<div class="table-responsive"><table class="table table-striped align-middle"><thead><tr><th>№</th><th>Пользователь</th><th>Книга</th><th>Дата и время просмотра</th></tr></thead><tbody>
+{% for view in pagination.items %}<tr><td>{{ (pagination.page - 1) * pagination.per_page + loop.index }}</td><td>{{ view.user.full_name if view.user else 'Неаутентифицированный пользователь' }}</td><td><a href="{{ url_for('main.book_detail', book_id=view.book_id) }}">{{ view.book.title }}</a></td><td>{{ view.viewed_at.strftime('%d.%m.%Y %H:%M:%S') }}</td></tr>{% else %}<tr><td colspan="4" class="text-center text-secondary">Записей пока нет.</td></tr>{% endfor %}
+</tbody></table></div>
+<nav><ul class="pagination justify-content-center">
+  <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}"><a class="page-link" href="{{ url_for('main.statistics', tab='logs', page=pagination.prev_num) if pagination.has_prev else '#' }}">Назад</a></li>
+  {% for page in pagination.iter_pages() %}{% if page %}<li class="page-item {% if page == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for('main.statistics', tab='logs', page=page) }}">{{ page }}</a></li>{% endif %}{% endfor %}
+  <li class="page-item {% if not pagination.has_next %}disabled{% endif %}"><a class="page-link" href="{{ url_for('main.statistics', tab='logs', page=pagination.next_num) if pagination.has_next else '#' }}">Далее</a></li>
+</ul></nav>
+{% else %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h4">Просмотры аутентифицированных читателей</h2><a class="btn btn-outline-success" href="{{ url_for('main.export_view_stats', date_from=date_from, date_to=date_to) }}">Экспорт в CSV</a></div>
+<form method="get" class="row g-3 align-items-end mb-4"><input type="hidden" name="tab" value="views">
+  <div class="col-sm-4"><label class="form-label" for="date_from">Дата от</label><input class="form-control" type="date" id="date_from" name="date_from" value="{{ date_from }}"></div>
+  <div class="col-sm-4"><label class="form-label" for="date_to">Дата до (включительно)</label><input class="form-control" type="date" id="date_to" name="date_to" value="{{ date_to }}"></div>
+  <div class="col-auto"><button class="btn btn-primary">Применить</button></div>
+</form>
+<div class="table-responsive"><table class="table table-striped"><thead><tr><th>№</th><th>Книга</th><th>Количество просмотров</th></tr></thead><tbody>
+{% for book, count in pagination.items %}<tr><td>{{ (pagination.page - 1) * pagination.per_page + loop.index }}</td><td>{{ book.title }}</td><td>{{ count }}</td></tr>{% else %}<tr><td colspan="3" class="text-center text-secondary">Нет просмотров за выбранный период.</td></tr>{% endfor %}
+</tbody></table></div>
+<nav><ul class="pagination justify-content-center">
+  <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}"><a class="page-link" href="{{ url_for('main.statistics', tab='views', page=pagination.prev_num, date_from=date_from, date_to=date_to) if pagination.has_prev else '#' }}">Назад</a></li>
+  {% for page in pagination.iter_pages() %}{% if page %}<li class="page-item {% if page == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for('main.statistics', tab='views', page=page, date_from=date_from, date_to=date_to) }}">{{ page }}</a></li>{% endif %}{% endfor %}
+  <li class="page-item {% if not pagination.has_next %}disabled{% endif %}"><a class="page-link" href="{{ url_for('main.statistics', tab='views', page=pagination.next_num, date_from=date_from, date_to=date_to) if pagination.has_next else '#' }}">Далее</a></li>
+</ul></nav>
+{% endif %}
+{% endblock %}

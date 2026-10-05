@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-6 col-lg-4">
+    <h1 class="h3 mb-4">Вход в библиотеку</h1>
+    <form method="post" class="card card-body shadow-sm">
+        <input type="hidden" name="next" value="{{ next_url }}">
+        <label class="form-label" for="login">Логин</label>
+        <input class="form-control mb-3" id="login" name="login" autocomplete="username" required>
+        <label class="form-label" for="password">Пароль</label>
+        <input class="form-control mb-3" type="password" id="password" name="password" autocomplete="current-password" required>
+        <button class="btn btn-primary">Войти</button>
+    </form>
+</div></div>
+{% endblock %}

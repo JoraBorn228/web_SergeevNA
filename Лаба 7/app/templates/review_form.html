@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Рецензия — {{ book.title }}{% endblock %}
+{% block content %}
+<a href="{{ url_for('main.book_detail', book_id=book.id) }}">← {{ book.title }}</a>
+<h1 class="h2 my-3">Рецензия на книгу «{{ book.title }}»</h1>
+<form method="post" class="card card-body shadow-sm">
+  <div class="mb-3"><label for="rating" class="form-label">Оценка</label><select class="form-select" id="rating" name="rating" required>
+    {% for value, label in [(5, 'отлично'), (4, 'хорошо'), (3, 'удовлетворительно'), (2, 'неудовлетворительно'), (1, 'плохо'), (0, 'ужасно')] %}<option value="{{ value }}" {% if request.form.get('rating', '5') == value|string %}selected{% endif %}>{{ label }}</option>{% endfor %}
+  </select></div>
+  <div class="mb-3"><label for="text" class="form-label">Текст рецензии (Markdown)</label><textarea class="form-control font-monospace" id="text" name="text" rows="7" required>{{ request.form.get('text', '') }}</textarea></div>
+  <div class="d-flex gap-2"><button class="btn btn-primary">Отправить рецензию</button><a class="btn btn-outline-secondary" href="{{ url_for('main.book_detail', book_id=book.id) }}">Отмена</a></div>
+</form>
+{% endblock %}

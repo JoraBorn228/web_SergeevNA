@@ -1,0 +1,12 @@
+body { background: #f7f8fa; color: #20232a; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+.book-cover { height: 230px; object-fit: cover; background: #e9ecef; }
+.detail-cover { max-height: 480px; width: 100%; object-fit: contain; background: #fff; }
+.card { border: 0; }
+.rating-line { color: #b7791f; font-size: 1.15rem; font-weight: 600; }
+.markdown-content { line-height: 1.7; overflow-wrap: anywhere; }
+.markdown-content pre { padding: 1rem; border-radius: .5rem; background: #212529; color: #f8f9fa; overflow-x: auto; }
+.markdown-content table { width: 100%; margin-bottom: 1rem; border-collapse: collapse; }
+.markdown-content th, .markdown-content td { border: 1px solid #dee2e6; padding: .5rem; }
+.markdown-content img { max-width: 100%; height: auto; }

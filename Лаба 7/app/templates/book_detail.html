@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Каталог</a></li><li class="breadcrumb-item active">{{ book.title }}</li></ol></nav>
+<article class="row g-4">
+  <div class="col-md-4 col-lg-3">{% if book.cover %}<img class="img-fluid rounded shadow-sm detail-cover" src="{{ book.cover.url }}" alt="Обложка книги {{ book.title }}">{% endif %}</div>
+  <div class="col-md-8 col-lg-9">
+    <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap"><div><h1>{{ book.title }}</h1><p class="lead mb-1">{{ book.author }}</p><p class="text-secondary">{{ book.year }} · {{ book.publisher }} · {{ book.page_count }} стр.</p></div>
+    {% if current_user.is_authenticated and current_user.has_role('Администратор', 'Модератор') %}<a class="btn btn-outline-secondary" href="{{ url_for('main.book_edit', book_id=book.id) }}">Редактировать</a>{% endif %}</div>
+    <p><strong>Жанры:</strong> {{ book.genres | map(attribute='name') | join(', ') }}</p>
+    <p class="text-secondary">{{ book.short_description }}</p>
+    <div class="rating-line">★ {{ book.average_rating }} <span class="text-secondary">({{ book.review_count }} рецензий)</span></div>
+    <hr><div class="markdown-content">{{ description_html | safe }}</div>
+  </div>
+</article>
+
+<section class="mt-5"><div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h3 mb-0">Рецензии читателей</h2>
+{% if current_user.is_authenticated and not own_review %}<a class="btn btn-primary" href="{{ url_for('main.review_create', book_id=book.id) }}">Написать рецензию</a>{% endif %}</div>
+{% for review in reviews %}<article class="card mb-3"><div class="card-body">
+  <div class="d-flex justify-content-between flex-wrap"><strong>{{ review.user.full_name }}</strong><time class="text-secondary" datetime="{{ review.created_at.isoformat() }}">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</time></div>
+  <p class="text-warning mb-2" aria-label="Оценка {{ review.rating }} из 5">Оценка: {{ review.rating }}/5 ★</p>
+  <div class="markdown-content">{{ review_texts[review.id] | safe }}</div>
+  {% if current_user.is_authenticated and current_user.has_role('Администратор', 'Модератор') %}<form class="mt-2" method="post" action="{{ url_for('main.review_moderate', review_id=review.id) }}"><button class="btn btn-sm btn-outline-warning">{{ 'Скрыть рецензию' if review.approved else 'Опубликовать рецензию' }}</button></form>{% endif %}
+</div></article>{% else %}<p class="text-secondary">Пока нет опубликованных рецензий.</p>{% endfor %}
+{% if own_review and own_review.approved %}<div class="alert alert-info">Вы уже оставили рецензию на эту книгу; она отображается выше.</div>{% elif own_review %}<div class="alert alert-info">Ваша рецензия ожидает проверки модератором.</div>{% endif %}
+</section>
+{% endblock %}
