@@ -1,0 +1,10 @@
+<article class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <strong>{{ review.user.full_name if review.user else 'Пользователь' }}</strong>
+            <time datetime="{{ review.created_at.isoformat() }}">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</time>
+        </div>
+        <div class="text-warning" aria-label="Оценка: {{ review.rating }} из 5">Оценка: {{ review.rating }}/5 ★</div>
+        <p class="mb-0 mt-2" style="white-space: pre-wrap">{{ review.text }}</p>
+    </div>
+</article>
