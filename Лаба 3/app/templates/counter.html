@@ -1,0 +1,24 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <h1 class="mb-4">Счётчик посещений</h1>
+        <div class="card shadow border-0">
+            <div class="card-body py-5">
+                <p class="display-1 fw-bold text-primary mb-2">{{ visits }}</p>
+                <p class="lead text-muted">
+                    {% if visits == 1 %}
+                        Вы посетили эту страницу <strong>1</strong> раз.
+                    {% elif visits % 10 in [2,3,4] and visits % 100 not in [12,13,14] %}
+                        Вы посетили эту страницу <strong>{{ visits }}</strong> раза.
+                    {% else %}
+                        Вы посетили эту страницу <strong>{{ visits }}</strong> раз.
+                    {% endif %}
+                </p>
+                <a href="{{ url_for('counter') }}" class="btn btn-primary mt-2">Обновить</a>
+            </div>
+        </div>
+        <p class="text-muted small mt-3">Счётчик хранится в сессии и уникален для каждого браузера.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+# Конфигурация для деплоя Лабораторной работы №3 на Render (https://render.com)
+# Render автоматически прочитает этот файл из корня репозитория.
+services:
+  - type: web
+    name: flask-lab3
+    runtime: python
+    plan: free
+    rootDir: "Лаба 3/app"
+    buildCommand: pip install -r ../requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
